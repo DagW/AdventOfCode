@@ -3,7 +3,6 @@ package se.dw.day1;
 /**
  * My solution to the day1 problem
  * http://adventofcode.com/2016/day/1
- * https://en.wikipedia.org/wiki/Taxicab_geometry
  */
 public class Solution {
 
@@ -15,7 +14,7 @@ public class Solution {
             "L3, L4, L1, R1, R4, R2, R2, R4, R2, R2, L3, L3, L4, R4, L4, L4, R1, L4, L4, R1, L2, R5, R2, R3, R3, " +
             "L2, L5, R3, L3, R5, L2, R3, R2, L4, L3, L1, R2, L2, L3, L5, R3, L1, L3, L4, L3";
 
-    WalkerState walkerState = new WalkerState();
+    private WalkerState walkerState = new WalkerState();
 
     public Solution(String input) {
 
@@ -51,6 +50,10 @@ public class Solution {
 
     }
 
+    public WalkerState getWalkerState() {
+        return walkerState;
+    }
+
     public class WalkerState {
 
         final int NORTH = 0, SOUTH = 2, EAST = 1, WEST = 3;
@@ -58,6 +61,7 @@ public class Solution {
 
         //Coordinates on the city grid
         private int[] coordinates = new int[]{0, 0};
+        private WalkerState walkerState;
 
         public void moveLeft(int distance) {
             //First we turn left
@@ -79,10 +83,12 @@ public class Solution {
 
         private void move(int distance) {
 
+            //Vertical movement
             if (orientation == NORTH)
                 coordinates[0] += distance;
             else if (orientation == SOUTH)
                 coordinates[0] -= distance;
+            //Horizontal movement
             else if (orientation == EAST)
                 coordinates[1] += distance;
             else if (orientation == WEST)
@@ -91,6 +97,7 @@ public class Solution {
         }
 
         public int getCityBlockDistance() {
+            // https://en.wikipedia.org/wiki/Taxicab_geometry
             return Math.abs(coordinates[0]) + Math.abs(coordinates[1]);
         }
 
