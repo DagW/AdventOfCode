@@ -56,7 +56,8 @@ public class Solution {
         final int NORTH = 0, SOUTH = 2, EAST = 1, WEST = 3;
         int orientation = NORTH;
 
-        private int[] location = new int[]{0, 0};
+        //Coordinates on the city grid
+        private int[] coordinates = new int[]{0, 0};
 
         public void moveLeft(int distance) {
             //First we turn left
@@ -79,18 +80,18 @@ public class Solution {
         private void move(int distance) {
 
             if (orientation == NORTH)
-                location[1] += distance;
+                coordinates[0] += distance;
             else if (orientation == SOUTH)
-                location[1] -= distance;
+                coordinates[0] -= distance;
             else if (orientation == EAST)
-                location[0] += distance;
+                coordinates[1] += distance;
             else if (orientation == WEST)
-                location[0] -= distance;
+                coordinates[1] -= distance;
 
         }
 
         public int getCityBlockDistance() {
-            return Math.abs(location[0]) + Math.abs(location[1]);
+            return Math.abs(coordinates[0]) + Math.abs(coordinates[1]);
         }
 
     }
