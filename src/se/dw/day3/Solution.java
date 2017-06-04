@@ -11,9 +11,6 @@ import java.nio.file.Paths;
  */
 public class Solution {
 
-
-    int validTriangleCount;
-
     public Solution(String input) {
 
         /*
@@ -22,7 +19,7 @@ public class Solution {
         The sum of any two numbers must be larger than the remaining one
          */
 
-        validTriangleCount = 0;
+        int validTriangleCount = 0;
 
         for (String triangleInput : input.split("\n")) {
 
@@ -36,33 +33,6 @@ public class Solution {
 
         System.out.println("Solution: " + validTriangleCount);
 
-    }
-
-    private class Triangle {
-
-        private final int side0, side1, side2;
-
-        public Triangle(String triangle) {
-            String[] stringSides = triangle.trim().split("\\s+");
-
-            side0 = Integer.parseInt(stringSides[0]);
-            side1 = Integer.parseInt(stringSides[1]);
-            side2 = Integer.parseInt(stringSides[2]);
-        }
-
-        public boolean isValid() {
-
-            //All two side sums must be larger than the third side
-            if (side0 + side1 <= side2) {
-                return false;
-            } else if (side1 + side2 <= side0) {
-                return false;
-            } else if (side2 + side0 <= side1) {
-                return false;
-            }
-            return true;
-
-        }
     }
 
     public static void main(String[] args) throws IOException {

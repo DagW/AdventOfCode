@@ -14,7 +14,7 @@ public class Solution {
             "L3, L4, L1, R1, R4, R2, R2, R4, R2, R2, L3, L3, L4, R4, L4, L4, R1, L4, L4, R1, L2, R5, R2, R3, R3, " +
             "L2, L5, R3, L3, R5, L2, R3, R2, L4, L3, L1, R2, L2, L3, L5, R3, L1, L3, L4, L3";
 
-    private WalkerState walkerState = new WalkerState();
+    private Walker walker = new Walker();
 
     public Solution(String input) {
 
@@ -31,7 +31,7 @@ public class Solution {
             walk(instruction);
         }
 
-        System.out.println("Solution: " + walkerState.getCityBlockDistance());
+        System.out.println("Solution: " + walker.getCityBlockDistance());
     }
 
     private void walk(String instruction) {
@@ -41,67 +41,20 @@ public class Solution {
 
         switch (turnDirection) {
             case 'L':
-                walkerState.moveLeft(distance);
+                walker.moveLeft(distance);
                 break;
             case 'R':
-                walkerState.moveRight(distance);
+                walker.moveRight(distance);
                 break;
         }
 
     }
 
-    public WalkerState getWalkerState() {
-        return walkerState;
+    public Walker getWalker() {
+        return walker;
     }
 
-    public class WalkerState {
 
-        final int NORTH = 0, SOUTH = 2, EAST = 1, WEST = 3;
-        int orientation = NORTH;
-
-        //Coordinates on the city grid
-        private int[] coordinates = new int[]{0, 0};
-        private WalkerState walkerState;
-
-        public void moveLeft(int distance) {
-            //First we turn left
-            orientation -= 1;
-            orientation = orientation % 4;
-            if (orientation < NORTH)
-                orientation = WEST;
-            //Then we move
-            move(distance);
-        }
-
-        public void moveRight(int distance) {
-            //First we turn right
-            orientation += 1;
-            orientation = orientation % 4;
-            //Then we move
-            move(distance);
-        }
-
-        private void move(int distance) {
-
-            //Vertical movement
-            if (orientation == NORTH)
-                coordinates[0] += distance;
-            else if (orientation == SOUTH)
-                coordinates[0] -= distance;
-            //Horizontal movement
-            else if (orientation == EAST)
-                coordinates[1] += distance;
-            else if (orientation == WEST)
-                coordinates[1] -= distance;
-
-        }
-
-        public int getCityBlockDistance() {
-            // https://en.wikipedia.org/wiki/Taxicab_geometry
-            return Math.abs(coordinates[0]) + Math.abs(coordinates[1]);
-        }
-
-    }
 
     public static void main(String[] args) {
         new Solution(input);

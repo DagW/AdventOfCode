@@ -23,7 +23,14 @@ public class SolutionTest {
 
     @Test
     public void testSolution() {
-        assertEquals(solution.getWalkerState().getCityBlockDistance(), 291);
+        assertEquals(solution.getWalker().getCityBlockDistance(), 291);
+    }
+
+    @Test
+    public void testWalker() {
+        Walker walker = new Walker();
+        walker.moveLeft(5);
+        assertEquals(walker.getCityBlockDistance(), 5);
     }
 
     @org.junit.After

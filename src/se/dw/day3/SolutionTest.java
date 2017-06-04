@@ -14,9 +14,9 @@ public class SolutionTest {
     }
 
     @Test
-    public void testSolution() {
-        assertEquals(new Solution(validTriangle).validTriangleCount, 1);
-        assertEquals(new Solution(invalidTriange).validTriangleCount, 0);
+    public void testTriangle() {
+        assertEquals(new Triangle(validTriangle).isValid(), true);
+        assertEquals(new Triangle(invalidTriange).isValid(), false);
     }
 
     @org.junit.After
