@@ -13,27 +13,25 @@ public class Room {
 
     public Room(String roomString) {
 
-        String[] nameParts = roomString.split("-");
+        //The first part containing the letters to be indexed
+        String firstPart = roomString.substring(0, roomString.lastIndexOf("-"));
+        firstPart = firstPart.replace("-", "");
 
         //Extract letter counts
-        for (int i = 0; i < nameParts.length - 1; i++) {
-
-            char[] letterArr = nameParts[i].toCharArray();
-            for (int j = 0; j < letterArr.length; j++) {
-                char letter = letterArr[j];
-                if (letters.containsKey(letter)) {
-                    letters.put(letter, letters.get(letter) + 1);
-                } else {
-                    letters.put(letter, 1);
-                }
+        char[] letterArr = firstPart.toCharArray();
+        for (int i = 0; i < letterArr.length; i++) {
+            char letter = letterArr[i];
+            if (letters.containsKey(letter)) {
+                letters.put(letter, letters.get(letter) + 1);
+            } else {
+                letters.put(letter, 1);
             }
-
         }
 
         //This is the roomId[checksum]-part
-        String suffix = nameParts[nameParts.length - 1];
-        checksum = suffix.substring(suffix.indexOf("[") + 1, suffix.lastIndexOf("]"));
-        roomId = Integer.parseInt(suffix.substring(0, suffix.indexOf("[")));
+        String lastPart = roomString.substring(roomString.lastIndexOf("-"));
+        checksum = lastPart.substring(lastPart.indexOf("[") + 1, lastPart.lastIndexOf("]"));
+        roomId = Integer.parseInt(lastPart.substring(0, lastPart.indexOf("[")));
 
     }
 
