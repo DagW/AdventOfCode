@@ -59,42 +59,42 @@ public class Solution {
 
     public class Dialpad {
 
+        private static final int X=1, Y=0;
+
         // representing a dialpad
         int[][] dials = {
                 {1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        // current coordinate on the dialpad, starting at 5
-        int[] state = {1, 1};
+        // current coordinate on the dialpad, starting at 5 (x,y) -> (1,1)
+        int[] dialcoordinate = {1, 1};
 
         public int getCurrentDial() {
-            return dials[state[0]][state[1]];
+            return dials[dialcoordinate[Y]][dialcoordinate[X]];
         }
 
         public void moveUp() {
-            state[0]--;
-            if (state[0] < 0)
-                state[0] = 0;
+            //If the move is within the dialpad
+            if(dialcoordinate[Y] > 0)
+                dialcoordinate[Y]--;
         }
 
         public void moveDown() {
-            state[0]++;
-            if (state[0] > 2)
-                state[0] = 2;
+            if(dialcoordinate[Y] < 2)
+                dialcoordinate[Y]++;
         }
 
         public void moveLeft() {
-            state[1]--;
-            if (state[1] < 0)
-                state[1] = 0;
+            if(dialcoordinate[X] > 0)
+                dialcoordinate[X]--;
         }
 
         public void moveRight() {
-            state[1]++;
-            if (state[1] > 2)
-                state[1] = 2;
+            if(dialcoordinate[X] < 2)
+                dialcoordinate[X]++;
         }
+
     }
 
     public static void main(String[] args) {
