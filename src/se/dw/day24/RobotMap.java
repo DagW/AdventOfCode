@@ -24,11 +24,8 @@ public class RobotMap {
                 if (Character.isDigit(chars[x])) {
                     pointsOfInterest += "" + chars[x];
                 }
-
             }
-
         }
-
     }
 
     public String getPointsOfInterest() {
@@ -44,7 +41,6 @@ public class RobotMap {
                 if (map2d[y][x] == character) {
                     return new Position(x, y);
                 }
-
             }
         }
 
@@ -66,7 +62,6 @@ public class RobotMap {
 
             System.out.println();
         }
-
     }
 
 
@@ -102,7 +97,6 @@ public class RobotMap {
                         //We found all distances
                         return distanceMap;
                     }
-
                 }
 
                 Position[] adjacentPositions = new Position[]{

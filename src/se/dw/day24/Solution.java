@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * My solution to the day24 problem - Not complete!
+ * My solution to the day24 problem
  * http://adventofcode.com/2016/day/24
  * <p>
  * Visit all numbered points on the map, using the lowest possible amount of moves
