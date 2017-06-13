@@ -41,7 +41,11 @@ public class Solution {
 
         Map<Character, Map<Character, Integer>> m = new HashMap<>();
         for (int i = 0; i < pointsOfInterest.length; i++) {
-            m.put(pointsOfInterest[i], map.getDistancesFrom(pointsOfInterest[i]));
+
+            //To try the different algorithms
+            //m.put(pointsOfInterest[i], map.getDistancesBFS(pointsOfInterest[i]));
+            m.put(pointsOfInterest[i], map.getDistancesDijkstra(pointsOfInterest[i]));
+
         }
 
         //Get all permutations starting with 0

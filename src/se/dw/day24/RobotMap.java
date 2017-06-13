@@ -32,6 +32,24 @@ public class RobotMap {
         return pointsOfInterest;
     }
 
+    private char getChar(Position position) {
+        return map2d[position.getY()][position.getX()];
+    }
+
+    private boolean isWalkable(Position position) {
+
+        //Check that we are inside map bounds
+        if (position.getX() < 0 || position.getX() >= map2d[0].length - 1
+                || position.getY() < 0 || position.getY() >= map2d.length - 1) {
+            return false;
+        }
+        //Check that the position is not a wall
+        if (map2d[position.getY()][position.getX()] == '#') {
+            return false;
+        }
+
+        return true;
+    }
 
     private Position getPositionOf(char character) {
 
@@ -64,12 +82,11 @@ public class RobotMap {
         }
     }
 
-
     /*
     BFS search for all other chars
     https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
      */
-    public Map<Character, Integer> getDistancesFrom(char startchar) {
+    public Map<Character, Integer> getDistancesBFS(char startchar) {
 
         Map<Character, Integer> distanceMap = new HashMap<>();
 
@@ -88,10 +105,10 @@ public class RobotMap {
 
                 //System.out.println("Testing "+currentPosition);
 
-                if (pointsOfInterest.contains("" + currentPosition.getChar())) {
+                if (pointsOfInterest.contains("" + getChar(currentPosition))) {
                     //System.out.println(start.getChar() + " -> " + currentPosition.getChar() + " is " + currentPosition.getDistance());
 
-                    distanceMap.put(currentPosition.getChar(), currentPosition.getDistance());
+                    distanceMap.put(getChar(currentPosition), currentPosition.getDistance());
 
                     if (distanceMap.size() == pointsOfInterest.length()) {
                         //We found all distances
@@ -107,7 +124,7 @@ public class RobotMap {
                 };
 
                 for (Position position : adjacentPositions) {
-                    if (!visitedPositions.contains(position) && position.isWalkable()) {
+                    if (!visitedPositions.contains(position) && isWalkable(position)) {
 
                         positionsToVisit.add(position);
 
@@ -122,65 +139,77 @@ public class RobotMap {
         return distanceMap;
     }
 
+    /*
+    Alternative way to get walk the map
+    https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Pseudocode
+     */
+    public Map<Character, Integer> getDistancesDijkstra(char startChar) {
 
-    private class Position {
-        int x, y, distance = 0;
+        Map<Character, Integer> distances = new HashMap<>();
+        distances.put(startChar, 0);
 
-        public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
+        ArrayList<Position> set = new ArrayList<>();
 
-        @Override
-        public boolean equals(Object obj) {
-            Position p2 = (Position) obj;
-            if (this.x == p2.getX() && this.y == p2.getY()) {
-                return true;
+        //Add the start position, the only one we know the distance of
+        Position start = getPositionOf(startChar);
+        start.setDistance(0);
+        set.add(start);
+
+        for (int y = 0; y < map2d.length; y++) {
+            for (int x = 0; x < map2d[y].length; x++) {
+
+                //Initiate all the maps positions with max distance
+                Position p = new Position(x, y);
+                p.setDistance(Integer.MAX_VALUE);
+                //Add if its not a wall etc.
+                if (isWalkable(p) && !set.contains(p)) {
+                    set.add(p);
+                }
             }
-            return false;
         }
 
-        public Position(int x, int y, int distance) {
-            this.x = x;
-            this.y = y;
-            this.distance = distance;
-        }
+        while (!set.isEmpty()) {
 
-        public int getDistance() {
-            return distance;
-        }
-
-        @Override
-        public String toString() {
-            return "Position(" + x + "," + y + ") d=" + distance + " [" + getChar() + "]";
-        }
-
-        public boolean isWalkable() {
-
-            //Check that we are inside map bounds
-            if (this.x < 0 || this.x >= map2d[0].length - 1
-                    || this.y < 0 || this.y >= map2d.length - 1) {
-                return false;
+            //Get the position with the least distance
+            Position currentPosition = null;
+            for (Position p : set) {
+                if (currentPosition == null || p.getDistance() < currentPosition.getDistance()) {
+                    currentPosition = p;
+                }
             }
-            //Check that the position is not a wall
-            if (map2d[this.y][this.x] == '#') {
-                return false;
+            //And get it from the list
+            currentPosition = set.remove(set.indexOf(currentPosition));
+
+            //Get the neighbours, if they are in the list they are within bounds and not walls
+            ArrayList<Position> adjacentPositions = new ArrayList<>();
+
+            Position above = new Position(currentPosition.getX(), currentPosition.getY() + 1);
+            if (set.indexOf(above) != -1) adjacentPositions.add(above);
+
+            Position below = new Position(currentPosition.getX(), currentPosition.getY() - 1);
+            if (set.indexOf(below) != -1) adjacentPositions.add(below);
+
+            Position left = new Position(currentPosition.getX() + 1, currentPosition.getY());
+            if (set.indexOf(left) != -1) adjacentPositions.add(left);
+
+            Position right = new Position(currentPosition.getX() - 1, currentPosition.getY());
+            if (set.indexOf(right) != -1) adjacentPositions.add(right);
+
+            for (Position position : adjacentPositions) {
+
+                position.setDistance(currentPosition.getDistance() + 1);
+
+                if (currentPosition.getDistance() + 1 < set.get(set.indexOf(position)).getDistance()) {
+                    set.set(set.indexOf(position), position);
+                }
+
+                if (Character.isDigit(getChar(position))) {
+                    distances.put(getChar(position), position.distance);
+                }
             }
-
-            return true;
         }
 
-        public char getChar() {
-            return map2d[this.y][this.x];
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public int getX() {
-            return x;
-        }
+        return distances;
     }
 
 }

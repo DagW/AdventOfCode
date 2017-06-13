@@ -33,7 +33,7 @@ public class SolutionTest {
         assertEquals(map.getPointsOfInterest().contains("."), false);
         assertEquals(map.getPointsOfInterest().contains("#"), false);
 
-        assertEquals(map.getDistancesFrom('0').size(), map.getPointsOfInterest().length());
+        assertEquals(map.getDistancesBFS('0').size(), map.getPointsOfInterest().length());
 
         /*
         From the example
@@ -42,11 +42,16 @@ public class SolutionTest {
         1 to 2 (6 steps)
         2 to 3 (2 steps)
          */
-        assertEquals((int) map.getDistancesFrom('0').get('0'), 0);
-        assertEquals((int) map.getDistancesFrom('0').get('4'), 2);
-        assertEquals((int) map.getDistancesFrom('4').get('1'), 4);
-        assertEquals((int) map.getDistancesFrom('1').get('2'), 6);
-        assertEquals((int) map.getDistancesFrom('2').get('3'), 2);
+        assertEquals((int) map.getDistancesBFS('0').get('0'), 0);
+        assertEquals((int) map.getDistancesBFS('0').get('4'), 2);
+        assertEquals((int) map.getDistancesBFS('4').get('1'), 4);
+        assertEquals((int) map.getDistancesBFS('1').get('2'), 6);
+        assertEquals((int) map.getDistancesBFS('2').get('3'), 2);
+        assertEquals((int) map.getDistancesDijkstra('0').get('0'), 0);
+        assertEquals((int) map.getDistancesDijkstra('0').get('4'), 2);
+        assertEquals((int) map.getDistancesDijkstra('4').get('1'), 4);
+        assertEquals((int) map.getDistancesDijkstra('1').get('2'), 6);
+        assertEquals((int) map.getDistancesDijkstra('2').get('3'), 2);
 
     }
 
