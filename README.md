@@ -18,5 +18,6 @@ Im just doing this for fun this time, but this would be an awesome way to learn 
  * [2016 Day 8 - Java](https://github.com/DagW/AdventOfCode_Java/tree/master/src/se/dw/aoc2016/day8/)
  * [2016 Day 9 - Java](https://github.com/DagW/AdventOfCode_Java/tree/master/src/se/dw/aoc2016/day9/)
  * [2016 Day 12 - C++](https://github.com/DagW/AdventOfCode_Cpp/tree/master/2016/day12)
+ * [2016 Day 23 - C++](https://github.com/DagW/AdventOfCode_Cpp/tree/master/2016/day23)
  * [2016 Day 24 - Java](https://github.com/DagW/AdventOfCode_Java/tree/master/src/se/dw/aoc2016/day24/)
 
