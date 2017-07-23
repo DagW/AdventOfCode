@@ -1,0 +1,35 @@
+
+
+#Read file by token
+std::ifstream file("file.txt");
+std::string token;
+while (file >> token) {
+    std::cout << token << std::endl;
+}
+#Read file by Line
+std::ifstream file("file.txt");
+for( std::string line; getline( file, line ); ) {
+    std::cout << line << std::endl;
+}
+
+#Read one-line-file, by CSV column
+std::ifstream file("file.txt");
+std::string column;
+while (getline(file, column, ',')) {
+    std::cout << column << std::endl;
+}
+
+#String split
+std::istringstream f(content);
+std::string s;
+while (getline(f, s, ',')) {
+    std::cout << s << std::endl;
+}
+
+#For Char in string
+for(char& ch : string) {
+    std::cout << ch << std::endl;
+}
+
+#Remove whitespace from string
+instruction.erase(std::remove(instruction.begin(), instruction.end(), ' '), instruction.end());
