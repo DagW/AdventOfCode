@@ -20,5 +20,5 @@ Im just doing this for fun this time, but this would be an awesome way to learn 
  * [2016 Day 12 - C++](https://github.com/DagW/AdventOfCode/tree/master/aoc_cpp/2016/day12)
  * [2016 Day 23 - C++](https://github.com/DagW/AdventOfCode/tree/master/aoc_cpp/2016/day23)
  * [2016 Day 24 - Java](https://github.com/DagW/AdventOfCode/tree/master/aoc_java/src/se/dw/aoc2016/day24/)
- * [2018 Day 1 - Go](https://github.com/DagW/AdventOfCode/tree/master/aoc_go/2018/day1/)
+ * [2017 Day 1 - Go](https://github.com/DagW/AdventOfCode/tree/master/aoc_go/2017/day1/)
 
