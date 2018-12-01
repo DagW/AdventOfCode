@@ -6,14 +6,14 @@ def part1(inputArray):
 
 
 def part2(inputArray):
-    sum = 0
-    seenFrequencies = {0: True}
+    currentFrequency = 0
+    seenFrequencies = {0}
     while True:
         for item in inputArray:
-            sum += int(item)
-            if sum in seenFrequencies:
-                return sum
-            seenFrequencies[sum] = True
+            currentFrequency += int(item)
+            if currentFrequency in seenFrequencies:
+                return currentFrequency
+            seenFrequencies.add(currentFrequency)
 
 
 def readFile(filename):
