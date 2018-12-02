@@ -25,7 +25,6 @@ def part2(inputArray):
                 if inverseDistance == matchLenght:
                     returnChars = [leftChar for leftChar, rightChar in zip(left, right) if leftChar == rightChar]
                     return ''.join(returnChars)
-    # But probably, i should just costruct a matrix with above?
 
 
 def readFile(filename):
