@@ -13,25 +13,19 @@ def part1(inputArray):
 
 
 def part2(inputArray):
-    # Create dict of how the rows compare to each of the other rows
-    # How many chars are matching?
-    inverseDistances = {}
-    for string in inputArray:
-        inverseDistances[string] = {}
-        for string2 in [i for i in inputArray if i != string]:
-            inverseDistances[string][string2] = sum([1 for left, right in zip(string, string2) if left == right])
-
-    # If they match all but one char, return all matching chars
-    stringLenght = len(inputArray[0]) - 1
-    match = ""
-    for left, matchList in inverseDistances.items():
-        for right, value in matchList.items():
-            if value == stringLenght:
-                for charIndex in range(0, len(left)):
-                    if left[charIndex] == right[charIndex]:
-                        match += str(left[charIndex])
-                return match
-    return None
+    # Look for string pairs matching all but one char
+    matchLenght = len(inputArray[0]) - 1
+    for i in range(0, len(inputArray)):
+        for j in range(0, len(inputArray)):
+            # Dont compare strings to themselves
+            if i != j:
+                left = inputArray[i]
+                right = inputArray[j]
+                inverseDistance = sum([1 for leftChar, rightChar in zip(left, right) if leftChar == rightChar])
+                if inverseDistance == matchLenght:
+                    returnChars = [leftChar for leftChar, rightChar in zip(left, right) if leftChar == rightChar]
+                    return ''.join(returnChars)
+    # But probably, i should just costruct a matrix with above?
 
 
 def readFile(filename):
