@@ -22,4 +22,5 @@ Im just doing this for fun this time, but this would be an awesome way to learn 
  * [2016 Day 24 - Java](https://github.com/DagW/AdventOfCode/tree/master/aoc_java/src/se/dw/aoc2016/day24/)
  * [2017 Day 1 - Go](https://github.com/DagW/AdventOfCode/tree/master/aoc_go/2017/day1/)
  * [2018 Day 1 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day1/)
+ * [2018 Day 2 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day2/)
 
