@@ -13,28 +13,25 @@ def part1(inputArray):
 
 
 def part2(inputArray):
-    # Create table of how the rows compare to each of the other rows
+    # Create dict of how the rows compare to each of the other rows
     # How many chars are matching?
-    stringmap = {}
+    inverseDistances = {}
     for string in inputArray:
-        stringmap[string] = {}
+        inverseDistances[string] = {}
         for string2 in [i for i in inputArray if i != string]:
-            stringmap[string][string2] = 0
-            for charIndex in range(0, len(string)):
-                if string[charIndex] == string2[charIndex]:
-                    stringmap[string][string2] += 1
+            inverseDistances[string][string2] = sum([1 for left, right in zip(string, string2) if left == right])
 
-    # If they match all but one char,
-    # return all matching chars
+    # If they match all but one char, return all matching chars
     stringLenght = len(inputArray[0]) - 1
     match = ""
-    for left, matchList in stringmap.items():
+    for left, matchList in inverseDistances.items():
         for right, value in matchList.items():
             if value == stringLenght:
                 for charIndex in range(0, len(left)):
                     if left[charIndex] == right[charIndex]:
                         match += str(left[charIndex])
                 return match
+    return None
 
 
 def readFile(filename):
@@ -46,5 +43,6 @@ if __name__ == "__main__":
     assert part2(["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]) == "fgij"
 
     inputData = readFile("input")
-    assert part1(inputData) == 6150
-    assert part2(inputData) == "rteotyxzbodglnpkudawhijsc"
+    assert part1(inputData)
+    assert part2(inputData)
+
