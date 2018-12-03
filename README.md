@@ -23,4 +23,5 @@ Im just doing this for fun this time, but this would be an awesome way to learn 
  * [2017 Day 1 - Go](https://github.com/DagW/AdventOfCode/tree/master/aoc_go/2017/day1/)
  * [2018 Day 1 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day1/)
  * [2018 Day 2 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day2/)
+ * [2018 Day 3 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day3/)
 
