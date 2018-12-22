@@ -27,4 +27,9 @@ Im just doing this for fun this time, but this would be an awesome way to learn 
  * [2018 Day 4 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day4/)
  * [2018 Day 5 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day5/)
  * [2018 Day 6 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day6/)
+ * [2018 Day 7 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day7/)
+ * [2018 Day 8 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day8/)
+ * [2018 Day 9 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day9/)
+ * [2018 Day 10 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day10/)
+ * [2018 Day 12 - Python](https://github.com/DagW/AdventOfCode/tree/master/aoc_python/2018/day12/)
 
