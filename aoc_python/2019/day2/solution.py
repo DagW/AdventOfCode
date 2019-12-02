@@ -30,6 +30,15 @@ def readFile(filename):
     return list(map(int, items))
 
 
+class Found(Exception):
+    def __init__(self, noun, verb):
+        self.noun = noun
+        self.verb = verb
+
+    def __str__(self):
+        return repr(self.noun, self.verb)
+
+
 if __name__ == "__main__":
     assert part1([1, 0, 0, 0, 99]) == [2, 0, 0, 0, 99]
     assert part1([2, 3, 0, 3, 99]) == [2, 3, 0, 6, 99]
@@ -41,3 +50,19 @@ if __name__ == "__main__":
     inputData[1] = 12
     inputData[2] = 2
     print(part1(inputData)[0])
+
+    # Part 2
+    try:
+        target = 19690720
+        inputData = readFile("input")
+        for noun in range(1, 100):
+            for verb in range(1, 100):
+                data = inputData.copy()
+                data[1] = noun
+                data[2] = verb
+                data = part1(data)
+                output = data[0]
+                if output == target:
+                    raise Found(noun, verb)
+    except Found as e:
+        print(100 * e.noun + e.verb)
