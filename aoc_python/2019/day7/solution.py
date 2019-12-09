@@ -8,14 +8,11 @@ class IntcodeComputer:
         self.inputs = [phase_setting]
         self.position = 0
 
-    def run(self, inputSignal, start_position=None):
-        self.inputs.append(inputSignal)
+    def run(self, input_signal, start_position=None):
+        self.inputs.append(input_signal)
         self.position = start_position if start_position else self.position
 
-        # print("intcode_computer", inputs)
-        # print("start", data, "inputSignal", inputSignal)
-        output = None
-        while self.data[self.position] != 99:
+        while True:
             instruction = self.data[self.position] % 100
             mode_1 = self.data[self.position] // 100 % 10
             mode_2 = self.data[self.position] // 1000 % 10
@@ -29,64 +26,47 @@ class IntcodeComputer:
                 # We might not always get pos2
                 pass
 
-            # print(self.position, "parse_modes", instruction, pos1, pos2, self.data)
-            if instruction == 1:
-                # Add
+            # print(self.position, "parse_modes", instruction)
+            if instruction == 1:  # Add
+                # print("intruction add", pos1, pos2, (pos1 + pos2))
                 self.data[self.data[self.position + 3]] = pos1 + pos2
                 # Next instruction
                 self.position += 4
-            elif instruction == 2:
-                # Multiply
+            elif instruction == 2:  # Multiply
+                # print("intruction multiply", pos1, pos2, (pos1 * pos2))
                 self.data[self.data[self.position + 3]] = pos1 * pos2
                 # Next instruction
                 self.position += 4
-            elif instruction == 3:
-                # Input
-                if len(self.inputs) > 1:
-                    indata = self.inputs.pop(0)
-                else:
-                    indata = self.inputs[0]
-                    # Always pos mode
+            elif instruction == 3:  # Input
+                indata = self.inputs.pop(0)
+                # print("instruction input", indata)
                 self.data[self.data[self.position + 1]] = indata
                 # Next instruction
                 self.position += 2
-            elif instruction == 4:
-                # Output
+            elif instruction == 4:  # Output
+                # print("instruction output", pos1)
                 output = pos1
-                # Next instruction
                 self.position += 2
+                return output
             elif instruction == 5:  # Jump if > 0
                 # print("instruction ", instruction, "if", pos1, ">0 jump to", pos2)
-                if pos1 > 0:
-                    self.position = pos2
-                else:
-                    self.position += 3
+                self.position = pos2 if pos1 > 0 else self.position + 3
             elif instruction == 6:  # Jump if 0
                 # print("instruction ", instruction, "if", pos1, "== 0 jump to", pos2)
-                if pos1 == 0:
-                    self.position = pos2
-                else:
-                    self.position += 3
+                self.position = pos2 if pos1 == 0 else self.position + 3
             elif instruction == 7:  # less than
                 # print("instruction ", instruction, "if", pos1, "<", pos2, " set 1")
-                if pos1 < pos2:
-                    self.data[self.data[self.position + 3]] = 1
-                else:
-                    self.data[self.data[self.position + 3]] = 0
+                self.data[self.data[self.position + 3]] = 1 if pos1 < pos2 else 0
                 self.position += 4
-
             elif instruction == 8:  # if ==
                 # print("instruction ", instruction, "if", pos1, "==", pos2, " set 1")
-                if pos1 == pos2:
-                    self.data[self.data[self.position + 3]] = 1
-                else:
-                    self.data[self.data[self.position + 3]] = 0
+                self.data[self.data[self.position + 3]] = 1 if pos1 == pos2 else 0
                 self.position += 4
+            elif instruction == 99:  # Halt
+                raise ComputerHalted
             else:
                 print("Unknown instruction!", instruction)
                 sys.exit(1)
-        # print("Halted", output)
-        return output
 
 
 def amplifiers(program, phase_sequence, first_input=0):
@@ -101,11 +81,33 @@ def amplifiers(program, phase_sequence, first_input=0):
 
 
 def part1(program):
-    maxresult = 0
+    max_result = 0
     for perm in list(itertools.permutations([0, 1, 2, 3, 4])):
-        maxresult = max(maxresult, amplifiers(program, perm))
-    # print("maxresult", maxresult)
-    return maxresult
+        max_result = max(max_result, amplifiers(program, perm))
+    return max_result
+
+
+class ComputerHalted(Exception):
+    pass
+
+
+def amplifiers_p2(program, phase_sequence):
+    amplifiers = [IntcodeComputer(program.copy(), x) for x in phase_sequence]
+
+    signal = 0
+    while True:
+        for amp in amplifiers:
+            try:
+                signal = amp.run(signal)
+            except ComputerHalted:
+                return signal
+
+
+def part2(program):
+    max_result = 0
+    for perm in list(itertools.permutations([5, 6, 7, 8, 9])):
+        max_result = max(max_result, amplifiers_p2(program, perm))
+    return max_result
 
 
 def readFile(filename):
@@ -115,6 +117,7 @@ def readFile(filename):
 
 if __name__ == "__main__":
     print("Part1")
+
     assert amplifiers(
         [3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15, 99, 0, 0],
         [4, 3, 2, 1, 0]
@@ -139,4 +142,18 @@ if __name__ == "__main__":
         [3, 31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31, 0, 33, 1002, 33, 7, 33, 1, 33, 31, 31, 1, 32, 31,
          31, 4, 31, 99, 0, 0, 0]
     ) == 65210
-    print(part1(readFile("input")))
+    print(part1(readFile("input")), "should be", 101490)
+
+    print("Part2")
+    assert amplifiers_p2(
+        [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27, 26, 27, 4, 27, 1001, 28,
+         -1, 28, 1005, 28, 6, 99, 0, 0, 5],
+        [9, 8, 7, 6, 5]
+    ) == 139629729
+    assert amplifiers_p2(
+        [3, 52, 1001, 52, -5, 52, 3, 53, 1, 52, 56, 54, 1007, 54, 5, 55, 1005, 55, 26, 1001, 54, -5, 54, 1105, 1, 12, 1,
+         53, 54, 53, 1008, 54, 0, 55, 1001, 55, 1, 55, 2, 53, 55, 53, 4, 53, 1001, 56, -1, 56, 1005, 56, 6, 99, 0, 0, 0,
+         0, 10],
+        [9, 7, 8, 5, 6]
+    ) == 18216
+    print(part2(readFile("input")), "should be", 61019896)
