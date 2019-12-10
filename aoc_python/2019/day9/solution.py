@@ -1,10 +1,6 @@
 import sys
 
 
-class ComputerHalted(Exception):
-    pass
-
-
 class IntcodeComputer:
     def __init__(self, data):
         self.data = {}
@@ -90,8 +86,7 @@ class IntcodeComputer:
             elif instruction == 9:
                 self.relative_base += pos1
                 self.position += 2
-            elif instruction == 99:  # Halt
-                # raise ComputerHalted
+            elif instruction == 99:
                 break
             else:
                 print("Unknown instruction!", instruction)
