@@ -1,5 +1,4 @@
 import math
-import sys
 
 
 def test_asteroid(map, from_y, from_x, part2=False):
