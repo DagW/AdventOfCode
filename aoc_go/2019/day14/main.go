@@ -7,7 +7,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func check(e error) {
@@ -202,37 +201,11 @@ func main() {
 		fmt.Println("Part1", filename, SolvePart1(readInput("aoc_go/2019/day14/test0")))
 	}*/
 	fmt.Println("findOreForReactionsWithRecursion")
-	fmt.Println("Part1 test1:", SolvePart1(readInput("aoc_go/2019/day14/test1"), findOreForReactionsWithRecursion), "31")
-	fmt.Println("Part1 test2:", SolvePart1(readInput("aoc_go/2019/day14/test2"), findOreForReactionsWithRecursion), "165")
-	fmt.Println("Part1 test3:", SolvePart1(readInput("aoc_go/2019/day14/test3"), findOreForReactionsWithRecursion), "13312")
-	fmt.Println("Part1 test4:", SolvePart1(readInput("aoc_go/2019/day14/test4"), findOreForReactionsWithRecursion), "180697")
-	fmt.Println("Part1 test5:", SolvePart1(readInput("aoc_go/2019/day14/test5"), findOreForReactionsWithRecursion), "2210736")
 	fmt.Println("Part1 solution:", SolvePart1(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithRecursion), "114125")
-	fmt.Println("Part2 test3:", SolvePart2(readInput("aoc_go/2019/day14/test3"), findOreForReactionsWithRecursion), "82892753")
-	fmt.Println("Part2 test4:", SolvePart2(readInput("aoc_go/2019/day14/test4"), findOreForReactionsWithRecursion), "5586022")
-	fmt.Println("Part2 test5:", SolvePart2(readInput("aoc_go/2019/day14/test5"), findOreForReactionsWithRecursion), "460664")
 	fmt.Println("Part2 solution:", SolvePart2(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithRecursion), "12039407")
 
 	fmt.Println("findOreForReactionsWithQueue")
-	fmt.Println("Part1 test1:", SolvePart1(readInput("aoc_go/2019/day14/test1"), findOreForReactionsWithQueue), "31")
-	fmt.Println("Part1 test2:", SolvePart1(readInput("aoc_go/2019/day14/test2"), findOreForReactionsWithQueue), "165")
-	fmt.Println("Part1 test3:", SolvePart1(readInput("aoc_go/2019/day14/test3"), findOreForReactionsWithQueue), "13312")
-	fmt.Println("Part1 test4:", SolvePart1(readInput("aoc_go/2019/day14/test4"), findOreForReactionsWithQueue), "180697")
-	fmt.Println("Part1 test5:", SolvePart1(readInput("aoc_go/2019/day14/test5"), findOreForReactionsWithQueue), "2210736")
 	fmt.Println("Part1 solution:", SolvePart1(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithQueue), "114125")
-	fmt.Println("Part2 test3:", SolvePart2(readInput("aoc_go/2019/day14/test3"), findOreForReactionsWithQueue), "82892753")
-	fmt.Println("Part2 test4:", SolvePart2(readInput("aoc_go/2019/day14/test4"), findOreForReactionsWithQueue), "5586022")
-	fmt.Println("Part2 test5:", SolvePart2(readInput("aoc_go/2019/day14/test5"), findOreForReactionsWithQueue), "460664")
 	fmt.Println("Part2 solution:", SolvePart2(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithQueue), "12039407")
 
-	start := time.Now()
-	for i := 0; i < 10_000; i++ {
-		SolvePart1(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithRecursion)
-	}
-	fmt.Println("With recursion", time.Since(start)) // 2.677544662s
-	start = time.Now()
-	for i := 0; i < 10_000; i++ {
-		SolvePart1(readInput("aoc_go/2019/day14/input"), findOreForReactionsWithQueue)
-	}
-	fmt.Println("With queue", time.Since(start)) // 3.650587617s
 }
