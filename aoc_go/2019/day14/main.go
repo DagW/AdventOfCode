@@ -60,7 +60,7 @@ func (stack *Stack) Clear() {
 	stack.items = []Ingredient{}
 }
 
-const TRILLION int = 1_000_000_000_000
+const TRILLION int = 1000000000000
 
 func SolvePart2(str string, solverFunction func(reactions Reactions, numFuel int) int) int {
 	reactions := parseInput(str)
