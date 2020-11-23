@@ -66,7 +66,7 @@ func SolvePart2(str string, solverFunction func(reactions Reactions, numFuel int
 	reactions := parseInput(str)
 	fuel := 1.0
 	runs := 0
-	stepsize := 1000_000
+	stepsize := 1000000
 	for stepsize > 0 {
 		runs++
 		ore := solverFunction(reactions, int(fuel))
