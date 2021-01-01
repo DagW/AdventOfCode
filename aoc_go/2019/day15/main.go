@@ -55,8 +55,8 @@ func mapWorld(computer *IntCodeComputer, world *map[position]int, current positi
 				}
 			case FOUND:
 				//Found oxygen, return the position
-				fmt.Println("Success2")
 				(*world)[modpos] = OXYGEN
+				mapWorld(computer, world, modpos)
 				return true, modpos
 
 			}
@@ -83,11 +83,6 @@ func mapWorld(computer *IntCodeComputer, world *map[position]int, current positi
 
 func bfsSearch(world map[position]int, from position, to position) int {
 	searchStack := []position{from}
-	// Have to clear the direction from the position
-	worldWithoutDirections := map[position]int{}
-	for k, v := range world {
-		worldWithoutDirections[position{y: k.y, x: k.x}] = v
-	}
 	distances := map[position]int{from: 0}
 	for len(searchStack) > 0 {
 		current := searchStack[len(searchStack)-1]
@@ -99,7 +94,7 @@ func bfsSearch(world map[position]int, from position, to position) int {
 			{y: current.y, x: current.x - 1},
 		}
 		for _, neighbour := range neighbours {
-			locationtype, inmap := worldWithoutDirections[neighbour]
+			locationtype, inmap := world[neighbour]
 			if inmap && locationtype != WALL {
 				_, visited := distances[neighbour]
 				if !visited {
@@ -111,7 +106,6 @@ func bfsSearch(world map[position]int, from position, to position) int {
 			}
 		}
 	}
-	to.from = 0 // Clear the direction
 	return distances[to]
 }
 
@@ -139,7 +133,7 @@ func printWorld(world map[position]int, pos position) {
 	for y := minY - 3; y < maxY+3; y++ {
 		fmt.Print("|")
 		for x := minX - 3; x < maxX+3; x++ {
-			if pos.x == x && pos.y == y {
+			if pos.x == x && pos.y == y && pos.from != 0 {
 				fmt.Print("X")
 			} else {
 				found := false
@@ -182,7 +176,53 @@ func main() {
 	start := position{}
 
 	_, target := mapWorld(&computer, &world, start)
-	printWorld(world, start)
-	part1 := bfsSearch(world, start, target)
-	fmt.Println(part1)
+
+	// Have to clear the direction from all positions
+	worldWithoutDirections := map[position]int{}
+	for k, v := range world {
+		worldWithoutDirections[position{y: k.y, x: k.x}] = v
+	}
+	target.from = 0
+
+	printWorld(worldWithoutDirections, start)
+	fmt.Println(bfsSearch(worldWithoutDirections, start, target))
+	fmt.Println(oxygenate(worldWithoutDirections))
+}
+
+func oxygenate(world map[position]int) int {
+	minutes := 1
+	visitedPositions := map[position]bool{}
+	for {
+		for pos, v := range world {
+			visited := visitedPositions[pos]
+			if !visited && v == OXYGEN {
+				neighbours := []position{
+					{y: pos.y + 1, x: pos.x},
+					{y: pos.y - 1, x: pos.x},
+					{y: pos.y, x: pos.x + 1},
+					{y: pos.y, x: pos.x - 1},
+				}
+				for _, neighbour := range neighbours {
+					value, existsInMap := world[neighbour]
+					if existsInMap && value == VISITED {
+						world[neighbour] = OXYGEN
+					}
+				}
+				visitedPositions[pos] = true
+			}
+		}
+		numNotOxygenated := 0
+		for _, v := range world {
+			if v == VISITED {
+				numNotOxygenated++
+			}
+		}
+		fmt.Println("num:", numNotOxygenated)
+		minutes++
+		if numNotOxygenated == 0 {
+			break
+		}
+	}
+	printWorld(world, position{})
+	return minutes
 }
