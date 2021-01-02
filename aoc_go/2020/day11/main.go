@@ -29,33 +29,7 @@ func printMap(m [][]int) {
 	fmt.Println("----")
 }
 
-func noOccupied(m [][]int, y, x, r int) bool {
-	test := [8][2]int{
-		{-1, 1},
-		{0, 1},
-		{1, 1},
-		{-1, 0},
-		{1, 0},
-		{-1, -1},
-		{0, -1},
-		{1, -1},
-	}
-	for _, t := range test {
-		//for multiplier := 1; multiplier < len(m); multiplier++ {
-		tx, ty := x+t[1], y+t[0]
-		//tx, ty = tx*multiplier, ty*multiplier
-		if ty < 0 || tx < 0 ||
-			ty > len(m)-1 || tx > len(m[1])-1 {
-			continue
-		}
-		if m[ty][tx] == occupied {
-			return false
-		}
-		//}
-	}
-	return true
-}
-func numOccupied(m [][]int, y, x, limit int) bool {
+func numOccupied(m [][]int, y, x, r int) int {
 	test := [8][2]int{
 		{-1, 1},
 		{0, 1},
@@ -67,48 +41,53 @@ func numOccupied(m [][]int, y, x, limit int) bool {
 		{1, -1},
 	}
 	numOccupied := 0
-	for _, t := range test {
-		tx, ty := x+t[1], y+t[0]
-		if ty < 0 || tx < 0 || ty > len(m)-1 || tx > len(m[1])-1 {
-			continue
-		}
-		if m[ty][tx] == occupied {
-			numOccupied++
-		}
-		if numOccupied >= limit {
-			return true
+	for t := 0; t < len(test); t++ {
+		direction := test[t]
+		for i := 0; i < r; i++ {
+			ty, tx := y+(direction[1]*(i+1)), x+(direction[0]*(i+1))
+			if ty < 0 || tx < 0 || ty > len(m)-1 || tx > len(m[1])-1 {
+				break
+			}
+			if m[ty][tx] == occupied {
+				numOccupied++
+				break
+			}
+			if m[ty][tx] == empty {
+				break
+			}
 		}
 	}
-	return false
+	return numOccupied
 }
 
-func doRound(m [][]int, r, limit int) ([][]int, int) {
+func iteratePassengers(m [][]int, radius, limit int) ([][]int, int) {
 	changes := 0
+	// Make all the changes on a new map
 	newMap := make([][]int, len(m))
 	for y := range m {
 		newMap[y] = make([]int, len(m[0]))
 	}
 	for y, row := range m {
 		for x, col := range row {
-			if col == empty && noOccupied(m, y, x, r) {
+			if col == empty && numOccupied(m, y, x, radius) == 0 {
 				newMap[y][x] = occupied
 				changes++
-			} else if col == occupied && numOccupied(m, y, x, limit) {
+			} else if col == occupied && numOccupied(m, y, x, radius) >= limit {
 				newMap[y][x] = empty
 				changes++
 			} else {
 				newMap[y][x] = col
 			}
-
 		}
 	}
 	return newMap, changes
 }
 
-func doRounds(m [][]int, r, limit int) int {
+func solve(m [][]int, radius, limit int) int {
 	changes := 1
 	for changes > 0 {
-		m, changes = doRound(m, r, limit)
+		m, changes = iteratePassengers(m, radius, limit)
+		count++
 	}
 	num := 0
 	for _, row := range m {
@@ -145,9 +124,8 @@ func readFile(filename string) (seats [][]int) {
 
 func main() {
 	test, input := readFile("test"), readFile("input")
-	fmt.Println(doRounds(test, 1, 4), 37)
-	fmt.Println(doRounds(input, 1, 4), 2261)
-	//fmt.Println(readFile("aoc_go/2020/day11/input"))
-	fmt.Println(doRounds(test, len(input), 5))
-	fmt.Println(doRounds(input, len(input), 5))
+	fmt.Println(solve(test, 1, 4), 37)
+	fmt.Println(solve(input, 1, 4), 2261)
+	fmt.Println(solve(test, len(test), 5))
+	fmt.Println(solve(input, len(input), 5))
 }
