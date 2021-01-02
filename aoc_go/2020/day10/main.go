@@ -1,9 +1,9 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -17,50 +17,109 @@ func contains(ints []int, target int) bool {
 	return false
 }
 
-/*func toDag(ints []int, target int) int {
-	ints = append(ints, 0)
-	ints = append(ints, target)
-	dag := map[int][]int{}
-	for _, v := range ints {
-		if contains(ints, v+1){
-			dag[v] = append(dag[v], v+1)
+/*
+Too slow, even in paralell :-)
+func part2(ints []int, powerlevel int) int {
+	cache := cache{}
+	resultChannel := make(chan []int)
+	go backtrack(&cache, []int{0}, ints, powerlevel, resultChannel)
+	num := 0
+	for c := range resultChannel {
+		if num%1000000 == 0 {
+			fmt.Println(num, c)
 		}
-		if contains(ints, v+2){
-			dag[v] = append(dag[v], v+2)
-		}
-		if contains(ints, v+3){
-			dag[v] = append(dag[v], v+3)
-		}
+		num++
 	}
-	fmt.Println(dag)
-
-	return 0
-}*/
-
-func backtrack(chain []int, ints []int) ([]int, error) {
-	if len(ints) == 0 {
+	return num
+}
+func backtrack(chain []int, ints []int, target int, resultChannel chan []int) {
+	if chain[len(chain)-1] == target-3 {
 		chain = append(chain, chain[len(chain)-1]+3)
-		return chain, nil
+		resultChannel <- chain
 	}
 	for i, value := range ints {
-		if value-chain[len(chain)-1] == 3 || value-chain[len(chain)-1] == 1 {
+		last := chain[len(chain)-1]
+		if value-last >= 1 && value-last <= 3 {
 			chain = append(chain, value)
 			var newInts []int
 			newInts = append(newInts, ints[:i]...)
 			newInts = append(newInts, ints[i+1:]...)
-			temp, err := backtrack(chain, newInts)
-			if err == nil {
-				return temp, nil
+
+			if len(chain) == 1 {
+				go backtrack(chain, newInts, target, resultChannel)
+			} else {
+				backtrack(chain, newInts, target, resultChannel)
 			}
 			chain = chain[:len(chain)-1]
 		}
 	}
-	return chain, errors.New("couldnt fint the chain")
+	if len(chain) == 1 {
+		// If we tried all starting combinations
+		// Signal done
+		close(resultChannel)
+	}
+}
+*/
+
+type cache struct {
+	store map[int]int
 }
 
-func part1(ints []int) int {
-	chain, _ := backtrack([]int{0}, ints)
-	fmt.Println(chain)
+func (c *cache) get(value int) (int, bool) {
+	if c.store == nil {
+		c.store = make(map[int]int)
+	}
+	item, ok := c.store[value]
+	return item, ok
+}
+
+func (c *cache) put(value int, result int) {
+	if c.store == nil {
+		c.store = make(map[int]int)
+	}
+
+	c.store[value] = result
+}
+
+func countingDfs(cache *cache, ints []int, last int, target int) int {
+	if item, ok := cache.get(last); ok {
+		return item
+	}
+	if last+3 == target {
+		return 1
+	}
+	sum := 0
+	for i, v := range ints {
+		if v-last >= 1 && v-last <= 3 {
+			var newInts []int
+			newInts = append(newInts, ints[:i]...)
+			newInts = append(newInts, ints[i+1:]...)
+			ts := countingDfs(cache, newInts, v, target)
+			cache.put(v, ts)
+			sum += ts
+		}
+	}
+	return sum
+}
+
+func part2(ints []int, target int) int {
+	n := countingDfs(&cache{}, ints, 0, target)
+	return n
+}
+
+func part1(ints []int) ([]int, int) {
+	chain := []int{0}
+	for len(ints) > 0 {
+		last := chain[len(chain)-1]
+		for i, v := range ints {
+			if v == last+1 || v == last+3 {
+				chain = append(chain, v)
+				ints = append(ints[:i], ints[i+1:]...)
+				break
+			}
+		}
+	}
+	chain = append(chain, chain[len(chain)-1]+3)
 	onej, threej, last := 0, 0, 0
 	for _, c := range chain {
 		if c-last == 1 {
@@ -70,8 +129,7 @@ func part1(ints []int) int {
 		}
 		last = c
 	}
-	fmt.Println(onej, threej)
-	return onej * threej
+	return chain, onej * threej
 }
 
 func readFile(filename string) (values []int) {
@@ -84,12 +142,21 @@ func readFile(filename string) (values []int) {
 		v, _ := strconv.Atoi(line)
 		values = append(values, v)
 	}
+	sort.Ints(values)
 	return
 }
 
 func main() {
-	fmt.Println(part1(readFile("test")))
-	fmt.Println(part1(readFile("input")))
-	/*fmt.Println(part2(readFile("aoc_go/2020/day10/test"), 22))
-	fmt.Println(part2(readFile("aoc_go/2020/day10/input"), 170))*/
+
+	chain, multiplied := part1(readFile("test"))
+	fmt.Println("P1T", multiplied, 35)
+	fmt.Println("P2T", part2(readFile("test"), chain[len(chain)-1]))
+
+	chain, multiplied = part1(readFile("test2"))
+	fmt.Println("P1T2", multiplied, 220)
+	fmt.Println("P2T2", part2(readFile("test2"), chain[len(chain)-1]))
+
+	chain, multiplied = part1(readFile("input"))
+	fmt.Println("P1I", multiplied, 35)
+	fmt.Println("P2I", part2(readFile("input"), chain[len(chain)-1]))
 }
