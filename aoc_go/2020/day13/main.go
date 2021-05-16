@@ -8,6 +8,11 @@ import (
 )
 
 func part2(values []int) int {
+
+	/*fmt.Println("Part2 Chinese remainders")
+	fmt.Println(values)
+	return 0*/
+
 	largest := 0
 	largestPos := 0
 	for i, l := range values {
@@ -36,7 +41,6 @@ func part2(values []int) int {
 		}
 		t += largest
 	}
-	return 0
 }
 
 func part1(earliestDeparture int, values []int) int {
@@ -97,9 +101,10 @@ func readFileP1(filename string) (earliestDeparture int, values []int) {
 
 func main() {
 	fmt.Println("Part1")
-	fmt.Println(part1(readFileP1("aoc_go/2020/day13/test")), 295)
-	fmt.Println(part1(readFileP1("aoc_go/2020/day13/input")), 6559)
+	fmt.Println(part1(readFileP1("test")), 295)
+	fmt.Println(part1(readFileP1("input")), 6559)
 	fmt.Println("Part2")
-	fmt.Println(part2(readFileP2("aoc_go/2020/day13/test")), 1068781)
-	fmt.Println(part2(readFileP2("aoc_go/2020/day13/input")), "?")
+	fmt.Println(part2(readFileP2("test")), 1068781)
+	//fmt.Println(part2(readFileP2("input")), "?")
+	fmt.Println("Done")
 }

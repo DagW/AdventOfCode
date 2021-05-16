@@ -72,7 +72,7 @@ func main() {
 		{"ecl", true},
 		{"pid", true},
 	}
-	fmt.Println("Part1", validatePassports(readFile("aoc_go/2020/day4/day4.test"), p1), 2)
-	fmt.Println("Part1", validatePassports(readFile("aoc_go/2020/day4/day4.input"), p1), 256)
+	fmt.Println("Part1", validatePassports(readFile("day4.test"), p1), 2)
+	fmt.Println("Part1", validatePassports(readFile("day4.input"), p1), 256)
 
 }

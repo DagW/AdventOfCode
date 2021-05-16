@@ -9,6 +9,8 @@ from collections import Counter
 def readFile(filename):
     return open(filename).read().strip().split("\n")
 
+def part2(inputArray)
+    part1(inputArray, workers=5)
 
 def part1(inputArray):
     graph = {}
@@ -52,9 +54,8 @@ def part1(inputArray):
         for key in sorted(graph.keys()):
 
             dependencies = graph[key]
-            # If all deps in visited
-            if set(dependencies).issubset(visited):
-                # print(key, "can be visited now",dependencies)
+            # If all deps in visited we can now visit
+            if set(dependencies).issubset(visited) and key not in tovisit:
                 tovisit.append(key)
 
         # Make sure we visit a-z

@@ -147,6 +147,14 @@ def moveUnit(grid, fromPos, toPos):
     grid[fromPos[0]][fromPos[1]] = "."
 
 
+def printNumElves(grid):
+    numElves = 0
+    for unit in getUnits(grid):
+        if grid[unit[0]][unit[1]][0] == "E":
+            numElves += 1
+    print("Elves:", numElves)
+
+
 def part1(inputArray, baseHP="200", baseAP="3", output=True):
 
     grid = []
@@ -156,7 +164,10 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
             point = inputArray[row][column]
             if point in "EG":
                 # ex. E, 200hp, 3 attack power
-                gridrow.append(point + "," + baseHP + "," + baseAP)
+                if point == "E":
+                    gridrow.append(point + "," + baseHP + "," + baseAP)
+                else:
+                    gridrow.append(point + "," + baseHP + "," + "3")
             else:
                 gridrow.append(point)
         grid.append(gridrow)
@@ -166,6 +177,7 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
     if output:
         printGrid(grid)
 
+    # printNumElves(grid) # Part2
     while True:
         if output:
             print(
@@ -195,6 +207,7 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
                     if output:
                         print("Battle ended!", score)
                         printGrid(grid)
+                    # printNumElves(grid) # Part2
                     return score
                 else:
                     # If anyone next to me is an enemy, attack
@@ -318,3 +331,9 @@ if __name__ == "__main__":
 
     inputData = readFile("input")
     print(part1(inputData))  # 139.7s
+
+    # Part 2
+    # for ap in range(10,30): # Happens at 20
+    #     print()
+    #     print("#",ap,datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S"))
+    #     print(part1(inputData, output=False, baseAP=str(ap)))

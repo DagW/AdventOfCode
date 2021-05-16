@@ -76,7 +76,7 @@ func main() {
 		{1, 2, 'b', "cdefg"},
 		{2, 9, 'c', "ccccccccc"},
 	}, policyPwd.part1))
-	fmt.Println("Part1", validate(readFile("aoc_go/2020/day2/day3.input"),
+	fmt.Println("Part1", validate(readFile("day2.input"),
 		policyPwd.part1))
 
 	fmt.Println("Part2", validate([]policyPwd{
@@ -85,6 +85,6 @@ func main() {
 		{1, 2, 'b', "cdefg"},
 		{2, 9, 'c', "ccccccccc"},
 	}, policyPwd.part2))
-	fmt.Println("Part2", validate(readFile("aoc_go/2020/day2/day3.input"),
+	fmt.Println("Part2", validate(readFile("day2.input"),
 		policyPwd.part2))
 }
