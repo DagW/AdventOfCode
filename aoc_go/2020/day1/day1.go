@@ -46,7 +46,7 @@ func readFile(filename string) []int {
 
 func main() {
 	fmt.Println("Part1", part1([]int{1721, 979, 366, 299, 675, 1456}))
-	fmt.Println("Part1", part1(readFile("aoc_go/2020/day1/day1.input")))
+	fmt.Println("Part1", part1(readFile("aoc_go/2020/day1/input")))
 	fmt.Println("Part2", part2([]int{1721, 979, 366, 299, 675, 1456}))
-	fmt.Println("Part2", part2(readFile("aoc_go/2020/day1/day1.input")))
+	fmt.Println("Part2", part2(readFile("aoc_go/2020/day1/input")))
 }

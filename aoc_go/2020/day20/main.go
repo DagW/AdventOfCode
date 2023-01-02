@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+
 	"math"
+
 	"regexp"
+
 	"strconv"
 	"strings"
 )
@@ -398,9 +401,9 @@ func readFile(filename string) (images map[string]image) {
 }
 
 func main() {
-	result, testFrame := part1(readFile("aoc_go/2020/day20/test"))
+	result, testFrame := part1(readFile("test"))
 	fmt.Println("Part1 test->", result)
-	result, inputFrame := part1(readFile("aoc_go/2020/day20/input"))
+	result, inputFrame := part1(readFile("input"))
 	fmt.Println("Part1 input->", result)
 
 	fmt.Println(part2(testFrame))
