@@ -58,7 +58,7 @@ func TestName(t *testing.T) {
 		},
 		{
 			input:    string(common.Must(os.ReadFile("input"))),
-			expected: 11048,
+			expected: 135512,
 		},
 	}
 	for i, tc := range tcs {
