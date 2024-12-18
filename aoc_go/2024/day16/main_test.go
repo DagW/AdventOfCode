@@ -61,7 +61,7 @@ func TestName(t *testing.T) {
 	}
 	for i, tc := range tcs {
 		t.Run(fmt.Sprintf("%d", i), func(t *testing.T) {
-			require.Equal(t, part1(tc.input), tc.expected)
+			require.Equal(t, tc.expected, part1(tc.input))
 		})
 	}
 }
@@ -72,41 +72,42 @@ const (
 	end   rune = 'E'
 )
 
+type chart struct {
+	m          [][]rune
+	start, end position
+}
 type position [2]int
 type state struct {
-	points              int
-	direction           int
-	start, end, current position
-	m                   [][]rune
-	visited             []position
+	direction int
+	current   position
+	visited   []position
+	decision  string
 }
 
-func parse(input string) state {
+func parse(input string) chart {
 	input = strings.TrimSpace(input)
 	rows := strings.Split(input, "\n")
 
-	s := state{m: make([][]rune, len(rows))}
+	c := chart{m: make([][]rune, len(rows))}
 	for i, row := range rows {
-		s.m[i] = make([]rune, len(row))
+		c.m[i] = make([]rune, len(row))
 	}
 
 	for y, row := range rows {
 		for x, col := range row {
-			s.m[y][x] = col
+			c.m[y][x] = col
 			if col == start {
-				s.start[0], s.start[1] = y, x
+				c.start[0], c.start[1] = y, x
 			} else if col == end {
-				s.end[0], s.end[1] = y, x
+				c.end[0], c.end[1] = y, x
 			}
 		}
 	}
-	s.current = s.start
-	s.points = 0
-	return s
+	return c
 }
 
-func (s state) print() {
-	for y, r := range s.m {
+func (c chart) print(s state) {
+	for y, r := range c.m {
 		for x, c := range r {
 			if slices.Contains(s.visited, position{y, x}) {
 				fmt.Print("x")
@@ -118,109 +119,100 @@ func (s state) print() {
 	}
 }
 
-func (s state) done() bool {
-	return s.current[0] == s.end[0] && s.current[1] == s.current[1]
+func (c chart) done(current position) bool {
+	return current[0] == c.end[0] && current[1] == c.end[1]
 }
 
-func (s state) walk(d int) state {
+func (s state) walk(c *chart, d int) (state, bool) {
 	s.visited = append(s.visited, s.current)
 
-	if s.m[s.current[0]][s.current[1]] == end {
-		return s
+	if c.done(s.current) {
+		return s, true
 	}
 
 	var results []state
 
 	if s.current[1] > 0 {
-		left := s.m[s.current[0]][s.current[1]-1]
+		left := c.m[s.current[0]][s.current[1]-1]
 		pos := position{s.current[0], s.current[1] - 1}
 		if left != wall && !slices.Contains(s.visited, pos) {
 			opt := s
 			opt.current = pos
-			opt.direction = 0
-			if s.direction != opt.direction {
-				opt.points += 1000
-			} else {
-				opt.points += 1
-			}
-			state := opt.walk(d + 1)
-			if state.points != -1 {
+			opt.decision += "l"
+			if state, ok := opt.walk(c, d+1); ok {
 				results = append(results, state)
 			}
 		}
 	}
-	if s.current[1] < len(s.m[s.current[0]]) {
-		right := s.m[s.current[0]][s.current[1]+1]
+	if s.current[1] < len(c.m[s.current[0]]) {
+		right := c.m[s.current[0]][s.current[1]+1]
 		pos := position{s.current[0], s.current[1] + 1}
 		if right != wall && !slices.Contains(s.visited, pos) {
 			opt := s
 			opt.current = pos
-			opt.direction = 1
-			if s.direction != opt.direction {
-				opt.points += 1000
-			} else {
-				opt.points += 1
-			}
-			state := opt.walk(d + 1)
-			if state.points != -1 {
+			opt.decision += "r"
+			if state, ok := opt.walk(c, d+1); ok {
 				results = append(results, state)
 			}
 		}
 	}
 	if s.current[0] > 0 {
-		up := s.m[s.current[0]-1][s.current[1]]
+		up := c.m[s.current[0]-1][s.current[1]]
 		pos := position{s.current[0] - 1, s.current[1]}
 		if up != wall && !slices.Contains(s.visited, pos) {
 			opt := s
 			opt.current = pos
-			opt.direction = 2
-			if s.direction != opt.direction {
-				opt.points += 1000
-			} else {
-				opt.points += 1
-			}
-			state := opt.walk(d + 1)
-			if state.points != -1 {
+			opt.decision += "u"
+			if state, ok := opt.walk(c, d+1); ok {
 				results = append(results, state)
 			}
 		}
 	}
-	if s.current[0] < len(s.m) {
-		down := s.m[s.current[0]+1][s.current[1]]
+	if s.current[0] < len(c.m) {
+		down := c.m[s.current[0]+1][s.current[1]]
 		pos := position{s.current[0] + 1, s.current[1]}
 		if down != wall && !slices.Contains(s.visited, pos) {
 			opt := s
 			opt.current = pos
-			opt.direction = 3
-			if s.direction != opt.direction {
-				opt.points += 1000
-			} else {
-				opt.points += 1
-			}
-			state := opt.walk(d + 1)
-			if state.points != -1 {
+			opt.decision += "d"
+			if state, ok := opt.walk(c, d+1); ok {
 				results = append(results, state)
 			}
 		}
 	}
 
-	if len(results) < 1 {
-		return state{points: -1}
-	}
+	return func(s ...state) (state, bool) {
+		if len(s) < 1 {
+			return state{}, false
+		}
+		best := s[0]
+		for _, v := range s {
+			if v.score() <= best.score() {
+				best = v
+			}
+		}
+		return best, true
+	}(results...)
+}
 
-	m := results[0]
-	for _, v := range results {
-		if v.points < m.points {
-			m = v
+func (s state) score() int {
+	turns := 1
+	last := rune(s.decision[0])
+	for _, c := range s.decision {
+		if c != last {
+			turns++
+			last = c
 		}
 	}
-	return m
+	return len(s.decision) + (turns * 1000)
 }
 
 func part1(input string) int {
-	s := parse(input)
-	r := s.walk(0)
-	r.print()
-	fmt.Println("SCORE", r.points)
-	return r.points
+	chart := parse(input)
+
+	s := state{current: chart.start}
+	r, ok := s.walk(&chart, 0)
+	fmt.Println("SCORE", ok, r.score())
+	chart.print(r)
+	return r.score()
 }
