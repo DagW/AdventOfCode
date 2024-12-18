@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/DagW/AdventOfCode/common"
+	"github.com/stretchr/testify/require"
 )
 
 func TestName(t *testing.T) {
@@ -60,9 +61,7 @@ func TestName(t *testing.T) {
 	}
 	for i, tc := range tcs {
 		t.Run(fmt.Sprintf("%d", i), func(t *testing.T) {
-			if result := part1(tc.input); result != tc.expected {
-				t.Fatalf("%d: expected %d should have been %d", i, tc.expected, result)
-			}
+			require.Equal(t, part1(tc.input), tc.expected)
 		})
 	}
 }
