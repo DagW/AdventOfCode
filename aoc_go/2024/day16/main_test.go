@@ -131,50 +131,18 @@ func (s state) walk(c *chart, d int) (state, bool) {
 	}
 
 	var results []state
-
-	if s.current[1] > 0 {
-		left := c.m[s.current[0]][s.current[1]-1]
-		pos := position{s.current[0], s.current[1] - 1}
-		if left != wall && !slices.Contains(s.visited, pos) {
-			opt := s
-			opt.current = pos
-			opt.decision += "l"
-			if state, ok := opt.walk(c, d+1); ok {
-				results = append(results, state)
-			}
-		}
+	neighbours := map[string]position{
+		"l": {s.current[0], s.current[1] - 1},
+		"r": {s.current[0], s.current[1] + 1},
+		"u": {s.current[0] - 1, s.current[1]},
+		"d": {s.current[0] + 1, s.current[1]},
 	}
-	if s.current[1] < len(c.m[s.current[0]]) {
-		right := c.m[s.current[0]][s.current[1]+1]
-		pos := position{s.current[0], s.current[1] + 1}
-		if right != wall && !slices.Contains(s.visited, pos) {
+	for key, neighbour := range neighbours {
+		sign := c.m[neighbour[0]][neighbour[1]]
+		if sign != wall && !slices.Contains(s.visited, neighbour) {
 			opt := s
-			opt.current = pos
-			opt.decision += "r"
-			if state, ok := opt.walk(c, d+1); ok {
-				results = append(results, state)
-			}
-		}
-	}
-	if s.current[0] > 0 {
-		up := c.m[s.current[0]-1][s.current[1]]
-		pos := position{s.current[0] - 1, s.current[1]}
-		if up != wall && !slices.Contains(s.visited, pos) {
-			opt := s
-			opt.current = pos
-			opt.decision += "u"
-			if state, ok := opt.walk(c, d+1); ok {
-				results = append(results, state)
-			}
-		}
-	}
-	if s.current[0] < len(c.m) {
-		down := c.m[s.current[0]+1][s.current[1]]
-		pos := position{s.current[0] + 1, s.current[1]}
-		if down != wall && !slices.Contains(s.visited, pos) {
-			opt := s
-			opt.current = pos
-			opt.decision += "d"
+			opt.current = neighbour
+			opt.decision += key
 			if state, ok := opt.walk(c, d+1); ok {
 				results = append(results, state)
 			}
