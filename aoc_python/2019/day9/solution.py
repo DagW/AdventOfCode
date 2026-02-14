@@ -14,7 +14,7 @@ class IntcodeComputer:
     def get_data(self, position):
         if position < 0:
             raise ValueError(
-                "Cant address memory below 0 ({})".format(position))
+                "Can't address memory below 0 ({})".format(position))
         return self.data.get(position, 0)
 
     def set_data(self, position, item):
