@@ -11,7 +11,8 @@ def part1(data, width, height):
     min_count_zeros = float('+inf')
     min_count_zeros_index = 0
     for layer_index in range(num_layers):
-        layer = data[(width * height) * layer_index:(width * height) * (layer_index + 1)]
+        layer = data[(width * height) *
+                     layer_index:(width * height) * (layer_index + 1)]
         num_zeros = layer.count(0)
         # print("Layer", layer_index, "count", num_zeros, layer)
 
@@ -28,11 +29,18 @@ def part2(data, width, height):
     data = [int(x) for x in data]
 
     num_layers = len(data) // (width * height)
-    print("datapoints", len(data), "Num layers", num_layers, "Layer size", (width * height))
+    print(
+        "datapoints",
+        len(data),
+        "Num layers",
+        num_layers,
+        "Layer size",
+        (width * height))
 
     layers = []
     for layer_index in range(num_layers):
-        layer = data[(width * height) * layer_index:(width * height) * (layer_index + 1)]
+        layer = data[(width * height) *
+                     layer_index:(width * height) * (layer_index + 1)]
         layer = np.array(layer).reshape((height, width))
         layers.append(layer)
 

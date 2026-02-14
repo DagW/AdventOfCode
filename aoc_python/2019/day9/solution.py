@@ -13,7 +13,8 @@ class IntcodeComputer:
 
     def get_data(self, position):
         if position < 0:
-            raise ValueError("Cant address memory below 0 ({})".format(position))
+            raise ValueError(
+                "Cant address memory below 0 ({})".format(position))
         return self.data.get(position, 0)
 
     def set_data(self, position, item):
@@ -34,7 +35,11 @@ class IntcodeComputer:
             elif mode_1 == 1:  # Immediate mode
                 pos1 = self.get_data(self.position + 1)
             elif mode_1 == 2:  # Rel mode
-                pos1 = self.get_data(self.get_data(self.position + 1) + self.relative_base)
+                pos1 = self.get_data(
+                    self.get_data(
+                        self.position +
+                        1) +
+                    self.relative_base)
 
             try:
                 if mode_2 == 0:
@@ -42,7 +47,11 @@ class IntcodeComputer:
                 elif mode_2 == 1:
                     pos2 = self.get_data(self.position + 2)
                 elif mode_2 == 2:
-                    pos2 = self.get_data(self.get_data(self.position + 2) + self.relative_base)
+                    pos2 = self.get_data(
+                        self.get_data(
+                            self.position +
+                            2) +
+                        self.relative_base)
             except Exception:
                 pass
 
@@ -52,7 +61,8 @@ class IntcodeComputer:
                 elif mode_3 == 1:
                     pos3 = self.position + 3
                 elif mode_3 == 2:
-                    pos3 = self.get_data(self.position + 3) + self.relative_base
+                    pos3 = self.get_data(
+                        self.position + 3) + self.relative_base
             except Exception:
                 pass
 
@@ -65,7 +75,12 @@ class IntcodeComputer:
             elif instruction == 3:
                 indata = self.inputs.pop(0)
                 if mode_1 == 2:
-                    self.set_data(self.get_data(self.position + 1) + self.relative_base, indata)
+                    self.set_data(
+                        self.get_data(
+                            self.position +
+                            1) +
+                        self.relative_base,
+                        indata)
                 else:
                     self.set_data(self.get_data(self.position + 1), indata)
                 self.position += 2
@@ -112,8 +127,9 @@ def readFile(filename):
 if __name__ == "__main__":
     print("Part1")
     assert part1([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]) \
-           == [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
-    assert part1([1102, 34915192, 34915192, 7, 4, 7, 99, 0]) == [1219070632396864]
+        == [109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]
+    assert part1([1102, 34915192, 34915192, 7, 4, 7, 99, 0]) == [
+        1219070632396864]
     assert part1([104, 1125899906842624, 99]) == [1125899906842624]
     print(part1(readFile("input")))
     print("Part2")

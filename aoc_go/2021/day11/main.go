@@ -94,7 +94,6 @@ func part1(file [][]int, steps int) int {
 
 func part2(file [][]int) int {
 
-
 	for i := 0; true; i++ {
 		// Increase all by 1, collect first flashes
 		flashing := map[[2]int]struct{}{}
@@ -136,8 +135,8 @@ func part2(file [][]int) int {
 		}
 
 		flashes := len(has_flashed)
-		if flashes == len(file)*len(file[0]){
-			return i+1
+		if flashes == len(file)*len(file[0]) {
+			return i + 1
 		}
 	}
 	return -1

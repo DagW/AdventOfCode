@@ -31,11 +31,13 @@ def testMap(dots):
             minx = dot.positionX
         if dot.positionY < miny:
             miny = dot.positionY
-            
-    map = np.zeros((int(math.fabs(maxy - miny)) + 1, int(math.fabs(maxx - minx)) + 1))
+
+    map = np.zeros((int(math.fabs(maxy - miny)) + 1,
+                   int(math.fabs(maxx - minx)) + 1))
 
     for dot in dots:
-        map[int(math.fabs(dot.positionY - miny)), int(math.fabs(dot.positionX - minx))] = 1
+        map[int(math.fabs(dot.positionY - miny)),
+            int(math.fabs(dot.positionX - minx))] = 1
 
     return map
 
@@ -45,7 +47,7 @@ def part1(inputArray):
     for row in inputArray:
         # EX position=< 9,  1> velocity=< 0,  2>
         matches = re.compile(
-            "^.*<([ \-\d]+),([ \-\d]+)>.*<([ \-\d]+),([ \-\d]+)>$"
+            "^.*<([ \\-\\d]+),([ \\-\\d]+)>.*<([ \\-\\d]+),([ \\-\\d]+)>$"
         ).match(row)
         positionX = int(matches.group(1))
         positionY = int(matches.group(2))

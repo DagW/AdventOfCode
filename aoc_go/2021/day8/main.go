@@ -63,7 +63,6 @@ func stringfunc(o string) int {
 		return 4
 	}
 
-
 	/*switch {
 	case containsIgnoreOrder("fbcad", o):
 		return 3

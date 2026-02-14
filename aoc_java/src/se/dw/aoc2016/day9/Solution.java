@@ -5,28 +5,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * My solution to the day9 problem
- * http://adventofcode.com/2016/day/9
- */
+/** My solution to the day9 problem http://adventofcode.com/2016/day/9 */
 public class Solution {
 
-    public Solution(String input) {
+  public Solution(String input) {
 
-        Decompressor decompressor = new Decompressor(input);
-        System.out.println("Before decompress: " + input.length());
+    Decompressor decompressor = new Decompressor(input);
+    System.out.println("Before decompress: " + input.length());
 
-        decompressor.decompressData();
+    decompressor.decompressData();
 
-        System.out.println("Solution: " + decompressor.decompressedData.length());
+    System.out.println("Solution: " + decompressor.decompressedData.length());
+  }
 
-    }
+  public static void main(String[] args) throws IOException {
 
-    public static void main(String[] args) throws IOException {
-
-        Path path = Paths.get("res/2016/day9.txt");
-        String input = new String(Files.readAllBytes(path));
-        new Solution(input);
-    }
-
+    Path path = Paths.get("res/2016/day9.txt");
+    String input = new String(Files.readAllBytes(path));
+    new Solution(input);
+  }
 }

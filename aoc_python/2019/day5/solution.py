@@ -160,7 +160,13 @@ def part2(data, input):
                 pos2 = data[position + 2]
             else:  # Position mode
                 pos2 = data[data[position + 2]]
-            print("instruction ", instruction, "if", pos1, "== 0 jump to", pos2)
+            print(
+                "instruction ",
+                instruction,
+                "if",
+                pos1,
+                "== 0 jump to",
+                pos2)
             if pos1 == 0:
                 position = pos2
             else:
@@ -190,7 +196,14 @@ def part2(data, input):
                 pos2 = data[position + 2]
             else:  # Position mode
                 pos2 = data[data[position + 2]]
-            print("instruction ", instruction, "if", pos1, "==", pos2, " set 1")
+            print(
+                "instruction ",
+                instruction,
+                "if",
+                pos1,
+                "==",
+                pos2,
+                " set 1")
             if pos1 == pos2:
                 data[data[position + 3]] = 1
             else:

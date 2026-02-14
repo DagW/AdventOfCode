@@ -48,7 +48,7 @@ def sumPart2(nodes):
         for index in meta.split(","):
             try:
                 retSum += sumPart2(childNodes[int(index) - 1])
-            except:
+            except BaseException:
                 pass
     return retSum
 

@@ -51,9 +51,9 @@ def createMap(outputs):
 
     print(
         map.replace("0", " ").replace("1", "X")
-            .replace("2", "□")
-            .replace("3", "-")
-            .replace("4", "o")
+        .replace("2", "□")
+        .replace("3", "-")
+        .replace("4", "o")
     )
     return map
 
@@ -84,9 +84,9 @@ def updateGame(map, outputs, print_map=False):
     if print_map:
         print(
             map.replace("0", " ").replace("1", "X")
-                .replace("2", "□")
-                .replace("3", "-")
-                .replace("4", "o")
+            .replace("2", "□")
+            .replace("3", "-")
+            .replace("4", "o")
         )
 
     return ball_x, paddle_x, map

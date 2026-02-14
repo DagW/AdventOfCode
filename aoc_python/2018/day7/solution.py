@@ -9,8 +9,10 @@ from collections import Counter
 def readFile(filename):
     return open(filename).read().strip().split("\n")
 
-def part2(inputArray)
+
+def part2(inputArray):
     part1(inputArray, workers=5)
+
 
 def part1(inputArray):
     graph = {}

@@ -1,52 +1,46 @@
 package se.dw.aoc2016.day6;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class SolutionTest {
 
+  public static final String shouldBeEaster =
+      "eedadn\n"
+          + "drvtee\n"
+          + "eandsr\n"
+          + "raavrd\n"
+          + "atevrs\n"
+          + "tsrnev\n"
+          + "sdttsa\n"
+          + "rasrtv\n"
+          + "nssdts\n"
+          + "ntnada\n"
+          + "svetve\n"
+          + "tesnvt\n"
+          + "vntsnd\n"
+          + "vrdear\n"
+          + "dvrsen\n"
+          + "enarar";
 
-    public final static String shouldBeEaster = "eedadn\n" +
-            "drvtee\n" +
-            "eandsr\n" +
-            "raavrd\n" +
-            "atevrs\n" +
-            "tsrnev\n" +
-            "sdttsa\n" +
-            "rasrtv\n" +
-            "nssdts\n" +
-            "ntnada\n" +
-            "svetve\n" +
-            "tesnvt\n" +
-            "vntsnd\n" +
-            "vrdear\n" +
-            "dvrsen\n" +
-            "enarar";
+  @org.junit.Before
+  public void setUp() throws Exception {}
 
-    @org.junit.Before
-    public void setUp() throws Exception {
-    }
+  @Test
+  public void testSolution() throws IOException {
 
-    @Test
-    public void testSolution() throws IOException {
+    Path path = Paths.get("res/2016/day6.txt");
+    String input = new String(Files.readAllBytes(path));
+    assertEquals(new Solution(input).getSolution(), "tsreykjj");
 
-        Path path = Paths.get("res/2016/day6.txt");
-        String input = new String(Files.readAllBytes(path));
-        assertEquals(new Solution(input).getSolution(), "tsreykjj");
+    assertEquals(new Solution(shouldBeEaster).getSolution(), "easter");
+  }
 
-        assertEquals(new Solution(shouldBeEaster).getSolution(), "easter");
-
-    }
-
-    @org.junit.After
-    public void tearDown() throws Exception {
-
-    }
-
+  @org.junit.After
+  public void tearDown() throws Exception {}
 }
