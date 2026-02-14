@@ -35,7 +35,7 @@ def printGrid(grid, separator=" "):
         for column in range(0, len(grid[row])):
             try:
                 print(grid[row][column][0], end=separator)
-            except:
+            except BaseException:
                 print(grid[row][column], end=separator)
         print("")
 
@@ -121,7 +121,8 @@ def calcDistance(grid, source, target):
             for modifier in searcharray:
                 modPos = (target[0] + modifier[0], target[1] + modifier[1])
                 modPosChar = gridcopy[modPos[0]][modPos[1]]
-                if str(gridcopy[modPos[0]][modPos[1]]) == str(distance - len(path)):
+                if str(gridcopy[modPos[0]][modPos[1]]) == str(
+                        distance - len(path)):
                     path.append(modPos)
                     target = (modPos[0], modPos[1])
                     break
@@ -249,7 +250,8 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
                                 grid, currentPos, targets
                             )
 
-                            # Move towards min distance (If a tie, normal order)
+                            # Move towards min distance (If a tie, normal
+                            # order)
                             minDistance = 5000
                             minIndex = -1
                             for index in range(0, len(targets)):
@@ -270,7 +272,8 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
                                 point = grid[currentPos[0] + modifier[0]][
                                     currentPos[1] + modifier[1]
                                 ]
-                                if point[0] in "EG".replace(currentUnit[0], ""):
+                                if point[0] in "EG".replace(
+                                        currentUnit[0], ""):
                                     targets.append(
                                         (
                                             currentPos[0] + modifier[0],
@@ -279,7 +282,8 @@ def part1(inputArray, baseHP="200", baseAP="3", output=True):
                                     )
 
                             if len(targets) > 0:
-                                attack(grid, source=currentPos, targets=targets)
+                                attack(
+                                    grid, source=currentPos, targets=targets)
 
                         else:
                             # print("Could not move, no possible targets")

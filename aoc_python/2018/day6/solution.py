@@ -59,7 +59,8 @@ def part1(inputArray):
     # now remove all indexes touching the walls
     for x in range(0, len(coordMap)):
         for y in range(0, len(coordMap[0])):
-            if x == 0 or y == 0 or x == len(coordMap) - 1 or y == len(coordMap[0]) - 1:
+            if x == 0 or y == 0 or x == len(
+                    coordMap) - 1 or y == len(coordMap[0]) - 1:
                 if coordMap[x][y] != -1:
                     value = coordMap[x][y]
                     coordMap[coordMap == value] = -1

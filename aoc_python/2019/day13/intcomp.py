@@ -21,7 +21,8 @@ class IntcodeComputer:
 
     def get_data(self, position):
         if position < 0:
-            raise ValueError("Cant address memory below 0 ({})".format(position))
+            raise ValueError(
+                "Can't address memory below 0 ({})".format(position))
         return self.data.get(position, 0)
 
     def set_data(self, position, item):
@@ -43,7 +44,11 @@ class IntcodeComputer:
             elif mode_1 == 1:  # Immediate mode
                 pos1 = self.get_data(self.position + 1)
             elif mode_1 == 2:  # Rel mode
-                pos1 = self.get_data(self.get_data(self.position + 1) + self.relative_base)
+                pos1 = self.get_data(
+                    self.get_data(
+                        self.position +
+                        1) +
+                    self.relative_base)
 
             try:
                 if mode_2 == 0:
@@ -51,7 +56,11 @@ class IntcodeComputer:
                 elif mode_2 == 1:
                     pos2 = self.get_data(self.position + 2)
                 elif mode_2 == 2:
-                    pos2 = self.get_data(self.get_data(self.position + 2) + self.relative_base)
+                    pos2 = self.get_data(
+                        self.get_data(
+                            self.position +
+                            2) +
+                        self.relative_base)
             except Exception:
                 pass
 
@@ -61,7 +70,8 @@ class IntcodeComputer:
                 elif mode_3 == 1:
                     pos3 = self.position + 3
                 elif mode_3 == 2:
-                    pos3 = self.get_data(self.position + 3) + self.relative_base
+                    pos3 = self.get_data(
+                        self.position + 3) + self.relative_base
             except Exception:
                 pass
 
@@ -78,7 +88,12 @@ class IntcodeComputer:
                 indata = self.inputs.pop(0)
                 # self.inputs[0] if len(self.inputs) == 1 else self.inputs.pop(0)
                 if mode_1 == 2:
-                    self.set_data(self.get_data(self.position + 1) + self.relative_base, indata)
+                    self.set_data(
+                        self.get_data(
+                            self.position +
+                            1) +
+                        self.relative_base,
+                        indata)
                 else:
                     self.set_data(self.get_data(self.position + 1), indata)
                 self.position += 2

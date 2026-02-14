@@ -81,8 +81,8 @@ func readFile(filename string) (instructions []instruction) {
 	return
 }
 
-//Ughh... backed myself into a corner
-//w making part1 reusable
+// Ughh... backed myself into a corner
+// w making part1 reusable
 func GetFunctionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }

@@ -5,35 +5,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * My solution to the day7 problem
- * http://adventofcode.com/2016/day/7
- */
+/** My solution to the day7 problem http://adventofcode.com/2016/day/7 */
 public class Solution {
 
-    public Solution(String input) {
+  public Solution(String input) {
 
-        int supportingTlsCount = 0;
+    int supportingTlsCount = 0;
 
-        for (String address : input.split("\n")) {
+    for (String address : input.split("\n")) {
 
-            IPv7Address iPv7Address = new IPv7Address(address);
-            if(iPv7Address.supportsTLS()){
-                supportingTlsCount ++;
-            }
-
-        }
-
-        System.out.println("Solution: "+supportingTlsCount);
-
+      IPv7Address iPv7Address = new IPv7Address(address);
+      if (iPv7Address.supportsTLS()) {
+        supportingTlsCount++;
+      }
     }
 
-    public static void main(String[] args) throws IOException {
+    System.out.println("Solution: " + supportingTlsCount);
+  }
 
-        Path path = Paths.get("res/2016/day7.txt");
-        String input = new String(Files.readAllBytes(path));
-        new Solution(input);
+  public static void main(String[] args) throws IOException {
 
-    }
-
+    Path path = Paths.get("res/2016/day7.txt");
+    String input = new String(Files.readAllBytes(path));
+    new Solution(input);
+  }
 }

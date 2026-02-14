@@ -25,11 +25,6 @@ func TestPart2(t *testing.T) {
 	fmt.Println("done", time.Since(start))
 }
 
-func ()  {
-	
-}
-
-
 // 113 seconds
 func part2(serialNumber int) interface{} {
 	grid := [gridsize][gridsize][3]int{}

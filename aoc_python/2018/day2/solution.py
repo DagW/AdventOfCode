@@ -4,7 +4,8 @@ def part1(inputArray):
     for string in inputArray:
         letters = {}
         for letterIndex in range(0, len(string)):
-            letters[string[letterIndex]] = letters.get(string[letterIndex], 0) + 1
+            letters[string[letterIndex]] = letters.get(
+                string[letterIndex], 0) + 1
         if 2 in letters.values():
             twoTimes += 1
         if 3 in letters.values():
@@ -21,9 +22,12 @@ def part2(inputArray):
             if i != j:
                 left = inputArray[i]
                 right = inputArray[j]
-                inverseDistance = sum([1 for leftChar, rightChar in zip(left, right) if leftChar == rightChar])
+                inverseDistance = sum([1 for leftChar, rightChar in zip(
+                    left, right) if leftChar == rightChar])
                 if inverseDistance == matchLenght:
-                    returnChars = [leftChar for leftChar, rightChar in zip(left, right) if leftChar == rightChar]
+                    returnChars = [
+                        leftChar for leftChar, rightChar in zip(
+                            left, right) if leftChar == rightChar]
                     return ''.join(returnChars)
 
 
@@ -32,10 +36,11 @@ def readFile(filename):
 
 
 if __name__ == "__main__":
-    assert part1(["abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"]) == 12
-    assert part2(["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]) == "fgij"
+    assert part1(["abcdef", "bababc", "abbcde", "abcccd",
+                 "aabcdd", "abcdee", "ababab"]) == 12
+    assert part2(["abcde", "fghij", "klmno", "pqrst",
+                 "fguij", "axcye", "wvxyz"]) == "fgij"
 
     inputData = readFile("input")
     assert part1(inputData)
     assert part2(inputData)
-

@@ -20,7 +20,8 @@ def test_asteroid(map, from_y, from_x, part2=False):
                     if part2:
                         # if we have a collission! Best manhattan dist wins
                         other = asteroids[angle]
-                        if (abs(from_y - y) + abs(from_x - x)) < (abs(from_y - other[0]) + abs(from_x - other[1])):
+                        if (abs(from_y - y) + abs(from_x - x)
+                            ) < (abs(from_y - other[0]) + abs(from_x - other[1])):
                             asteroids[angle] = (y, x)
                     else:
                         pass

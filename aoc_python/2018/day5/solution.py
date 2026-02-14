@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 import string
 
+
 def part2(inputArray):
     inputString = inputArray[0]
-    minLength = len(inputString)+1
+    minLength = len(inputString) + 1
     for char in list(string.ascii_lowercase):
         tempString = inputString.replace(char, "")
         tempString = tempString.replace(char.upper(), "")
@@ -16,13 +17,14 @@ def part2(inputArray):
 
     return minLength
 
+
 def part1(inputArray):
     inputString = inputArray[0]
 
     permutations = []
     for char in list(string.ascii_lowercase):
-        permutations.append(char+char.upper())
-        permutations.append(char.upper()+char)
+        permutations.append(char + char.upper())
+        permutations.append(char.upper() + char)
 
     changes = 1
     while changes > 0:
@@ -45,14 +47,15 @@ def part1slow(inputArray):
         changes = 0
         prevChar = inputString[0]
         for index in range(1, len(inputString)):
-            prevChar = inputString[index-1]
+            prevChar = inputString[index - 1]
             curChar = inputString[index]
             if prevChar != curChar:
                 if (
                     prevChar.lower() == curChar or
-                    prevChar.upper() == curChar 
-                    ):
-                    inputString = inputString[:index-1] + inputString[index+1:]
+                    prevChar.upper() == curChar
+                ):
+                    inputString = inputString[:index -
+                                              1] + inputString[index + 1:]
                     changes += 1
                     break
 
@@ -60,6 +63,7 @@ def part1slow(inputArray):
             loop = False
 
     return len(inputString)
+
 
 def readFile(filename):
     return open(filename).read().strip().split("\n")
