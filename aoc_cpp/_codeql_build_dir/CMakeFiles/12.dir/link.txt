@@ -1,1 +1,0 @@
-/home/runner/work/AdventOfCode/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/12.dir/link.d CMakeFiles/12.dir/2016/day12/main.cpp.o -o 12
